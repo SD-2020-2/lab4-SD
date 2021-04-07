@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8080/clients', { forceNew: true });
+var socket = io.connect('/clients', { forceNew: true });
 
 socket.on('time', function (data) {
 	console.log(data);
