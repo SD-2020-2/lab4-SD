@@ -16,7 +16,7 @@ app.get('/time', (req, res) => {
 	let minutes = date.getMinutes();
 	let hour = date.getHours();
 
-	res.json({ hour: hour, minutes: minutes, seconds: seconds });
+	res.send({ hour: hour, minutes: minutes, seconds: seconds });
 });
 
 app.use(express.static('public'));
