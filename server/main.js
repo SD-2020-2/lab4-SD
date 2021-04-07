@@ -3,7 +3,8 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 let date = new Date();
-const exec = require('child_process').exec;
+var terminal = require('child_process').spawn('bash');
+
 var messages = [
 	{
 		text: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
@@ -41,6 +42,13 @@ setTimeout(function () {
 		io.of('clients').emit('time', messages);
 	}, 1000);
 }, 2000);
+
+app.post('/setTime', function (req, res) {
+	console.log(req);
+	terminal.stdin.write('date --set "2021-04-07 17:27"');
+	terminal.stdin.end();
+	res.status(200).send('Hello World!');
+});
 
 function changeHour(e) {
 	exec('bash main.sh', (err, stdout, stderr) => {
