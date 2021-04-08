@@ -60,6 +60,20 @@ app.get("/change", function (req, res) {
   res.send("200");
 });
 
+app.post("/change", function (req, res) {
+  console.log("holiwi");
+  let { hora, minuto, segundo } = req.body;
+
+  terminal.stdin.write(
+    `sudo date --set "2021-04-08 ${hora}:${minuto}:${segundo}"`
+  );
+  terminal.stdout.on("data", function (data) {
+    console.log("stdout: " + data);
+  });
+  terminal.stdin.end();
+  res.send("200");
+});
+
 server.listen(8080, function () {
   console.log("Servidor corriendo en http://localhost:8080");
 });
