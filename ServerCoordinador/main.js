@@ -4,6 +4,8 @@ const axios = require('axios');
 const port = 3000;
 var date = new Date(2021, 04, 07, 08, 17, 40, 00); //hora instancia coordinador
 var time = new Date(); //hora cuadrada
+const { execSync } = require('child_process');
+const { stderr } = require('process');
 let tiempos = [];
 var cont = 0;
 
@@ -45,6 +47,26 @@ function sendTime() {
 	console.log('entra metodo');
 	console.log(tiempos[0]);
 }
+
+app.get('/instance', (req, res) => {
+	try {
+		let containersIps = execSync(
+			`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q --filter ancestor=server)`
+		).toString();
+		containersIps = containersIps.split('\n');
+		containersIps.pop();
+		res.status(200).send(containersIps);
+	} catch (error) {
+		console.log('Aun no hay contenedores creados !', error.stderr.toString());
+		res.status(404).send([]);
+	}
+});
+
+app.post('/instance', (req, res) => {
+	let response = execSync(`bash ${__dirname}/../create-instance.sh`).toString();
+	console.log(response);
+	res.status(200).send('Instancia creada !');
+});
 
 app.listen(port, () => {
 	console.log(`Middleware listening on port: ${port}`);
