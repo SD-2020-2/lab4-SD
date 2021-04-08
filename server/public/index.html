@@ -7,20 +7,85 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="main.js"></script>
     <script src="/server/main.js"></script>
-    <script src="comunication.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <h1>My App</h1>
-    <div id="messages"></div>
-    <br />
+    <div class="wrap" id="app">
+        <div class="widget">
+            <div class="fecha">
+                <p id="diaSemana" class="diaSemana">{{diaSemana}}</p>
+                <p id="dia" class="dia">{{dia}}</p>
+                <p>de </p>
+                <p id="mes" class="mes">{{mes}}</p>
+                <p>del </p>
+                <p id="year" class="year">{{year}}</p>
+            </div>
 
-    <form onsubmit=" return changeHour(this)">
-        <input type="submit" value="Cambiar Hora!">
-    </form>
-    <div id="buttons">
-        <button id="btn-actualizar" class="btn_email" v-on:click="actualizar">Actualizar Info</button>
+            <div class="reloj">
+                <p id="horas" class="horas">{{hour}}</p>
+                <p>:</p>
+                <p id="minutos" class="minutos">{{minutes}}</p>
+                <p>:</p>
+                <div class="caja-segundos">
+                    <p id="ampm" class="ampm">{{ampm}}</p>
+                    <p id="segundos" class="segundos">{{ seconds}}</p>
+                </div>
+            </div>
+
+
+
+        </div>
     </div>
+
+
+    <!--monitoreo -->
+    <div class="contenedorMonitoreo">
+        <h1 class="titulo">Modificar Hora</h1>
+
+        <div id="targeta" class="targeta">
+            <label for="time">Hora:</label>
+            <input type="number" min="0" max="24" step="2" value="0" size="6" name="hora">
+            <label for="time">Minuto:</label>
+            <input type="number" min="0" max="30" step="2" value="0" size="6" name="minuto">
+            <label for="time">Segundo:</label>
+            <input type="number" min="0" max="60" step="2" value="0" size="6" name="segundo">
+
+        </div>
+
+        <div id="buttons">
+            <button id="btn-cambiarHora" class="btn_cambiarHora" v-on:click="actualizar">Cambiar hora</button>
+        </div>
+    </div>
+
+
+    <div>
+        <div id="tablaInfo" class="tablaInfo">
+            <h1 class="titulo2">Estado de los servidores</h1>
+
+            <table id="servidoresinfo">
+                <tr>
+                    <th scope="col">Name server</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">Status</th>
+                </tr>
+
+                <tr v-for="server,index in serversList">
+                    <td>Servidor # : {{index+1}} </td>
+                    <td>{{server.ip}}</td>
+                    <td>{{server.status}}</td>
+                </tr>
+
+            </table>
+
+        </div>
+    </div>
+
+
+    <script src=" https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="comunication.js"></script>
+
+
 </body>
 
 </html>
