@@ -90,12 +90,26 @@ var buttonsa = new Vue({
   },
 });
 
+const hora = document.querySelector("#hora");
+const minuto = document.querySelector("#minuto");
+const segundo = document.querySelector("#segundo");
+
 function cambiarHora() {
-  console.log("holiwi");
-  fetch("/change")
+  let fecha = {
+    hora: hora.value,
+    minuto: minuto.value,
+    segundo: segundo.value,
+  };
+  let options = {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: fecha,
+  };
+
+  fetch("/change", options)
     .then((response) => response.text())
     .catch((error) => console.log(error));
-  alert("Informacion Actualizada");
+  alert("fecha modificada");
 }
 
 // tabla
