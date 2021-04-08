@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8080/clients', { forceNew: true });
+var socket = io.connect('/clients', { forceNew: true });
 
 socket.on('time', function (data) {
 	console.log(data);
@@ -18,10 +18,7 @@ function render(data) {
 }
 
 function addMessage(e) {
-	var message = {
-		text: new Date(),
-	};
-
-	socket.emit('time', message);
-	return false;
+	terminal.stdin.write('date --set "2021-04-07 17:27"');
+	terminal.stdin.end();
+	return true;
 }

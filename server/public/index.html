@@ -7,15 +7,20 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="main.js"></script>
     <script src="/server/main.js"></script>
+    <script src="comunication.js"></script>
 </head>
 
 <body>
     <h1>My App</h1>
     <div id="messages"></div>
     <br />
-    <form onsubmit="return changeHour(this)">
+
+    <form onsubmit=" return changeHour(this)">
         <input type="submit" value="Cambiar Hora!">
     </form>
+    <div id="buttons">
+        <button id="btn-actualizar" class="btn_email" v-on:click="actualizar">Actualizar Info</button>
+    </div>
 </body>
 
 </html>

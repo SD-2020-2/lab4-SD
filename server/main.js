@@ -4,6 +4,10 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 let date = new Date();
 var terminal = require('child_process').spawn('bash');
+var exec = require('child_process');
+const bodyParser = require('body-parser');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 var messages = [
 	{
@@ -11,13 +15,15 @@ var messages = [
 	},
 ];
 
-app.get('/time', (req, res) => {
-	let date = new Date();
-	let seconds = date.getSeconds();
-	let minutes = date.getMinutes();
-	let hour = date.getHours();
-
-	res.send({ hour: hour, minutes: minutes, seconds: seconds });
+app.post('/time', (req, res) => {
+	var info = Object.keys(req.body)[0];
+	var date = new Date(parseInt(info, 10));
+	console.log(date);
+	console.log(req.body);
+	var dateI = new Date();
+	var oper = date - dateI;
+	console.log('diferencia ' + oper);
+	res.send({ diferencia: oper });
 });
 
 app.use(express.static('public'));
@@ -43,22 +49,15 @@ setTimeout(function () {
 	}, 1000);
 }, 2000);
 
-app.post('/setTime', function (req, res) {
-	console.log(req);
-	terminal.stdin.write('date --set "2021-04-07 17:27"');
-	terminal.stdin.end();
-	res.status(200).send('Hello World!');
-});
-
-function changeHour(e) {
-	exec('bash main.sh', (err, stdout, stderr) => {
-		if (err) {
-			console.error(`exec error: ${err}`);
-		} else {
-			console.log('logrado Hora cambiada');
-		}
+app.get('/change', function (req, res) {
+	console.log('holiwi');
+	terminal.stdin.write('sudo date --set "2021-04-07 17:27"');
+	terminal.stdout.on('data', function (data) {
+		console.log('stdout: ' + data);
 	});
-}
+	terminal.stdin.end();
+	res.send('200');
+});
 
 server.listen(8080, function () {
 	console.log('Servidor corriendo en http://localhost:8080');

@@ -2,8 +2,10 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 const port = 3000;
-var date = new Date(2021, 04, 07, 08, 54, 00, 00);
-var time = new Date();
+var date = new Date(2021, 04, 07, 08, 17, 40, 00); //hora instancia coordinador
+var time = new Date(); //hora cuadrada
+let tiempos = [];
+var cont = 0;
 
 app.get('/time', (req, res) => {
 	axios
@@ -11,6 +13,7 @@ app.get('/time', (req, res) => {
 		.then((response) => {
 			res.sendStatus(200);
 			date = new Date(response.data.utc_datetime);
+			console.log(response.data.utc_datetime);
 			var dateAux = new Date();
 			console.log(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
 			console.log(dateAux.getHours() + ':' + dateAux.getMinutes() + ':' + dateAux.getSeconds());
@@ -20,37 +23,27 @@ app.get('/time', (req, res) => {
 			console.log('error en post usuario');
 		});
 });
+
 app.get('/gettime', (req, res) => {
 	console.log(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+	var info = date.getTime() + '';
 	axios
-		.get(`http://localhost:8080/time`)
+		.post(`http://localhost:8080/time`, info)
 		.then((response) => {
-			let endTime = new Date().getTime();
-			const travelTime = (endTime - date.getTime()) / 2;
-			let newTime = new Date();
-			newTime.setHours(response.data.hour);
-			newTime.setMinutes(response.data.minutes);
-			newTime.setSeconds(response.data.seconds);
-			console.log(newTime.getHours() + ':' + newTime.getMinutes() + ':' + newTime.getSeconds());
-			newTime.setTime(newTime.getTime() + travelTime);
-			time = newTime;
-			console.log(time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds());
-			sendTime();
-			res.send('Ok');
+			tiempos.push(response.data.diferencia);
+			res.sendStatus(200);
 		})
 		.catch((error) => {
 			res.sendStatus(300);
-			console.log(error);
+			console.log('error en post usuario');
 		});
 });
 
+//metodo que envie el promedio de relojes a las instancias
+//y cuadrar la hora
 function sendTime() {
-	axios
-		.post(`http://localhost:8080/setTime`, time)
-		.then((response) => {})
-		.catch((error) => {
-			console.log(error);
-		});
+	console.log('entra metodo');
+	console.log(tiempos[0]);
 }
 
 app.listen(port, () => {
