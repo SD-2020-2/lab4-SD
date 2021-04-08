@@ -50,13 +50,13 @@ setTimeout(function () {
 				text: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
 			},
 		];
-		console.log(infotable);
+		console.log(messages);
 		messagestable = [
 			{
 				text: infotable,
 			},
 		];
-		io.of('clients').emit('time', messagestable);
+		io.of('clients').emit('time', messages);
 		io.of('clients').emit('table', messages);
 	}, 1000);
 }, 2000);

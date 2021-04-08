@@ -33,7 +33,7 @@ function render2(data) {
 		})
 		.join(' ');
 
-	document.getElementById('messagestable').innerHTML = html;
+	document.getElementById('messages').innerHTML = html;
 }
 
 function addMessage(e) {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Coordinador</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <h1>Coordinador</h1>
+
+    <div id="buttons">
+        <button id="btn-instance" class="btn_instance" v-on:click="actualizar">New instance</button>
+    </div>
+
+    <!-- targeta monitoreo -->
+    <div action="" id="tarjeta" class="tarjeta">
+        <h1 class="titulo">Estado de los servidores</h1>
+
+        <table id="servidoresinfo">
+            <tr>
+                <th scope="col">Index</th>
+                <th scope="col">IP</th>
+
+            </tr>
+
+            <tr v-for="server,index in serversList">
+                <td>{{index}}</td>
+                <td>{{server}}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <script src=" https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="comunication.js"></script>
+</body>
+
+</html>
