@@ -1,0 +1,19 @@
+asyncapi: 2.0.0
+info:
+  title: Berkeley API Sockets
+  version: 1.0.0
+  description: Algoritmo Berkeley laboratorio 4 sistemas distribuidos
+channels:
+  /clients:
+    subscribe:
+      message:
+        $ref: '#/components/messages/clients'
+components:
+  messages:
+    clients:
+      payload:
+        type: string
+        properties:
+          time:
+            type: string
+            description: hora del servidor

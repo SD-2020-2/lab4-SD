@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Berkeley API
+  description: API de el lab 4 de sistemas distribuidos, algoritmo de Berkeley
+  contact:
+    name: Sistemas distribuidos 2020
+    url: 'https://github.com/SD-2020-2/lab4-SD'
+    email: pruebasdistribuidos20@gmail.com
+  version: 1.0.0
+
+servers:
+  - url: 'http://localhost:3000/'
+    description: Servidor coordinador
+
+paths:
+  /instance:
+    get:
+      description: Endpoint para obtener lista de ips de las instancias server
+      responses:
+        200:
+          description: Retorna exitosamente la lista de ips de las instancias server
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: ['172.17.0.2', '172.17.0.3', '172.17.0.4']
+        404:
+          description: No se han creado contenedores server o no estan corriendo
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                example: []
+    post:
+      description: Crear una nueva instancia en un contenedor de Docker
+      responses:
+        200:
+          description: Crea exitosamente una nueva instancia
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'Instancia creada !'
+  /gettime:
+    get:
+      description: Enviar la hora a las distintas instancias
+      responses:
+        200:
+          description: Envia la hora a las instancias de manera correcta
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'Hora enviada a instancia'
+        300:
+          description: Error en post a instancia server
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'Error en post usuario'
+  /time:
+    get:
+      description: Obtiene la hora de el servicio de hora mundial
+      responses:
+        200:
+          description: Se consulto la hora y se almaceno
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '22:30:25'
+        300:
+          description: Error al obtener la hora de servicio externo
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'Error servicio externo'
