@@ -8,18 +8,22 @@ var exec = require('child_process');
 const bodyParser = require('body-parser');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+var infotable = 'hola';
 var messages = [
 	{
 		text: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
 	},
 ];
 
+var messagestable = [
+	{
+		text: infotable,
+	},
+];
+
 app.post('/time', (req, res) => {
 	var info = Object.keys(req.body)[0];
 	var date = new Date(parseInt(info, 10));
-	console.log(date);
-	console.log(req.body);
 	var dateI = new Date();
 	var oper = date - dateI;
 	console.log('diferencia ' + oper);
@@ -35,6 +39,7 @@ app.get('/hello', function (req, res) {
 io.of('clients').on('connection', (socket) => {
 	console.log('A new user connected');
 	socket.emit('time', messages);
+	socket.emit('table', messagestable);
 });
 
 setTimeout(function () {
@@ -45,17 +50,46 @@ setTimeout(function () {
 				text: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
 			},
 		];
-		io.of('clients').emit('time', messages);
+		console.log(infotable);
+		messagestable = [
+			{
+				text: infotable,
+			},
+		];
+		io.of('clients').emit('time', messagestable);
+		io.of('clients').emit('table', messages);
 	}, 1000);
 }, 2000);
 
-app.get('/change', function (req, res) {
-	console.log('holiwi');
-	terminal.stdin.write('sudo date --set "2021-04-07 17:27"');
+app.post('/change', function (req, res) {
+	var info = Object.keys(req.body)[0];
+	var date = new Date();
+	console.log(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+	var milis = date.getTime() + parseInt(info, 10);
+	console.log(milis);
+	let newDate = new Date(milis);
+	infotable +=
+		date.getHours() +
+		':' +
+		date.getMinutes() +
+		':' +
+		date.getSeconds() +
+		'  ' +
+		milis +
+		'  ' +
+		newDate.getHours() +
+		':' +
+		newDate.getMinutes() +
+		':' +
+		newDate.getSeconds();
+	console.log(newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds());
+
+	terminal.stdin.write('sudo date --set "2021-04-07 ' + newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds() + '"');
 	terminal.stdout.on('data', function (data) {
 		console.log('stdout: ' + data);
 	});
 	terminal.stdin.end();
+
 	res.send('200');
 });
 
