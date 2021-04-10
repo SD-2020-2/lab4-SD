@@ -46,7 +46,7 @@ setTimeout(function () {
 		let date = new Date();
 		messages = [
 			{
-				text: d+++++++++++++++++++++++++++++++++++} ++ ':' + date.getMinutes() + ':' + date.getSeconds(),
+				text: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
 			},
 		];
 		console.log(messages);
