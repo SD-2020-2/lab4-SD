@@ -28,7 +28,7 @@ fi
 echo "-------------------------------------------------"
 
 # Detener todos los contenedores
-#docker stop $(docker ps -q)
+#docker stop $(docker ps -a -q)
 
 # Eliminar todos los contenedores detenidos
 #docker rm $(docker ps -a -q)

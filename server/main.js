@@ -3,7 +3,6 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 let date = new Date();
-var terminal = require('child_process').spawn('bash');
 var exec = require('child_process');
 const bodyParser = require('body-parser');
 app.use(express.json());
@@ -47,7 +46,7 @@ setTimeout(function () {
 		let date = new Date();
 		messages = [
 			{
-				text: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
+				text: d+++++++++++++++++++++++++++++++++++} ++ ':' + date.getMinutes() + ':' + date.getSeconds(),
 			},
 		];
 		console.log(messages);
@@ -83,13 +82,6 @@ app.post('/change', function (req, res) {
 		':' +
 		newDate.getSeconds();
 	console.log(newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds());
-
-	terminal.stdin.write('sudo date --set "2021-04-07 ' + newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds() + '"');
-	terminal.stdout.on('data', function (data) {
-		console.log('stdout: ' + data);
-	});
-	terminal.stdin.end();
-
 	res.send('200');
 });
 

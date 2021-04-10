@@ -19,8 +19,7 @@ app.get('/time', (req, res) => {
 			date = new Date(response.data.utc_datetime);
 			console.log(response.data.utc_datetime);
 			var dateAux = new Date();
-			console.log(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
-			console.log(dateAux.getHours() + ':' + dateAux.getMinutes() + ':' + dateAux.getSeconds());
+			console.log('Hora servicio externo:' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
 			res.sendStatus(200);
 		})
 		.catch((error) => {

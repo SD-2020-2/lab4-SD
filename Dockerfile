@@ -12,4 +12,4 @@ COPY server/. .
 
 EXPOSE 8080
 
-CMD [ "sudo ","node", "main.js" ]
+CMD ["node", "main.js" ]
